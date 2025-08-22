@@ -23,7 +23,7 @@ namespace AquaFarm.API.Controllers
         }
 
         [HttpGet("{fishFarmId}/workers")]
-        public async Task<ActionResult<IEnumerable<WorkerDto>>> GetWorkers(int fishFarmId, [FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public async Task<ActionResult<IEnumerable<WorkerDto>>> GetWorkers(int fishFarmId, [FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             var workers = await _workerService.GetWorkersByFishFarmAsync(fishFarmId, skip, take);
             return Ok(workers);

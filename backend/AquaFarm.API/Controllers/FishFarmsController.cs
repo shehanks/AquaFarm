@@ -23,7 +23,7 @@ namespace AquaFarm.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FishFarmDto>>> GetFishFarms([FromQuery] int skip = 0, [FromQuery] int take = 20)
+        public async Task<ActionResult<IEnumerable<FishFarmDto>>> GetFishFarms([FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             var fishFarms = await _fishFarmService.GetFishFarmsAsync(skip, take);
             return Ok(fishFarms);
