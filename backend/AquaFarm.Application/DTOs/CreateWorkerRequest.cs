@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AquaFarm.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace AquaFarm.Application.DTOs
 {
@@ -18,7 +19,7 @@ namespace AquaFarm.Application.DTOs
         public string Email { get; set; } = null!;
 
         [Required]
-        public string Position { get; set; } = null!;
+        public WorkerPosition Position { get; set; }
 
         [Required]
         public DateTime CertifiedUntil { get; set; }

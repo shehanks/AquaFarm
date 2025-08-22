@@ -31,8 +31,12 @@ namespace AquaFarm.Infrastructure.Data
             {
                 entity.Property(w => w.Name).HasMaxLength(200).IsRequired();
                 entity.Property(w => w.Email).HasMaxLength(200).IsRequired();
-                entity.Property(w => w.Position).HasMaxLength(100).IsRequired();
                 entity.Property(w => w.Picture).HasMaxLength(500);
+
+                entity.Property(w => w.Position)
+                      .HasConversion<string>()
+                      .HasMaxLength(50)
+                      .IsRequired();
             });
         }
     }
