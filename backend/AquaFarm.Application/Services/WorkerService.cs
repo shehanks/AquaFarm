@@ -38,7 +38,8 @@ namespace AquaFarm.Application.Services
                 throw new AquaFarmException(
                     action: "CREATE_WORKER",
                     statusCode: 500,
-                    ex.Message, ex);
+                    ex.Message,
+                    innerException: ex);
             }
         }
 
@@ -63,7 +64,8 @@ namespace AquaFarm.Application.Services
                 throw new AquaFarmException(
                     action: "GET_WORKER_BY_FISHFARM",
                     statusCode: 500,
-                    ex.Message, ex);
+                    ex.Message,
+                    innerException: ex);
             }
         }
     }

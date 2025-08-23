@@ -36,10 +36,11 @@ namespace AquaFarm.Application.Services
             catch (Exception ex)
             {
                 throw new AquaFarmException(
-                    action: "CREATE_FISHFARM", 
+                    action: "CREATE_FISHFARM",
                     statusCode: 500,
-                    ex.Message, ex);
-            }  
+                    ex.Message,
+                    innerException: ex);
+            }
         }
 
         public async Task<IEnumerable<FishFarmDto>> GetFishFarmsAsync(int skip = 0, int take = 10)
@@ -62,7 +63,8 @@ namespace AquaFarm.Application.Services
                 throw new AquaFarmException(
                     action: "GET_FISHFARMS",
                     statusCode: 500,
-                    ex.Message, ex);
+                    ex.Message,
+                    innerException: ex);
             }
         }
     }
