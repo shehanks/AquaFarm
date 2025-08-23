@@ -1,4 +1,5 @@
 using AquaFarm.Application.DTOs;
+using AquaFarm.Application.Services;
 using AquaFarm.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +11,14 @@ namespace AquaFarm.API.Controllers
     {
         private readonly IFishFarmService _fishFarmService;
 
-        public FishFarmsController(IFishFarmService fishFarmService)
+        private readonly IWorkerService _workerService;
+
+        public FishFarmsController(
+            IFishFarmService fishFarmService,
+            IWorkerService workerService)
         {
             _fishFarmService = fishFarmService;
+            _workerService = workerService;
         }
 
         [HttpPost]
@@ -27,6 +33,13 @@ namespace AquaFarm.API.Controllers
         {
             var fishFarms = await _fishFarmService.GetFishFarmsAsync(skip, take);
             return Ok(fishFarms);
+        }
+
+        [HttpGet("{fishFarmId}/workers")]
+        public async Task<ActionResult<IEnumerable<WorkerDto>>> GetWorkers(int fishFarmId, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+        {
+            var workers = await _workerService.GetWorkersByFishFarmAsync(fishFarmId, skip, take);
+            return Ok(workers);
         }
     }
 }

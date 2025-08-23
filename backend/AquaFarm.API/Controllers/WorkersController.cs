@@ -21,12 +21,5 @@ namespace AquaFarm.API.Controllers
             var worker = await _workerService.CreateWorkerAsync(request);
             return CreatedAtAction(nameof(CreateWorker), new { id = worker.Id }, worker);
         }
-
-        [HttpGet("{fishFarmId}/workers")]
-        public async Task<ActionResult<IEnumerable<WorkerDto>>> GetWorkers(int fishFarmId, [FromQuery] int skip = 0, [FromQuery] int take = 10)
-        {
-            var workers = await _workerService.GetWorkersByFishFarmAsync(fishFarmId, skip, take);
-            return Ok(workers);
-        }
     }
 }
