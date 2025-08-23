@@ -28,23 +28,5 @@ namespace AquaFarm.API.Controllers
             var fishFarms = await _fishFarmService.GetFishFarmsAsync(skip, take);
             return Ok(fishFarms);
         }
-
-        [HttpPost("upload")]
-        public async Task<IActionResult> UploadImage(IFormFile picture)
-        {
-            if (picture == null || picture.Length == 0)
-                return BadRequest("No file uploaded.");
-
-            var fileName = Guid.NewGuid() + Path.GetExtension(picture.FileName);
-            var filePath = Path.Combine("wwwroot/images", fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await picture.CopyToAsync(stream);
-            }
-
-            var relativeUrl = "/images/" + fileName;
-            return Ok(new { url = relativeUrl });
-        }
     }
 }
