@@ -363,7 +363,11 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Ignore uploaded images
-wwwroot/
+# Ignore everything in the images folder
+/backend/AquaFarm.API/wwwroot/images/*
+
+# But not the .gitkeep file
+!/backend/AquaFarm.API/wwwroot/images/.gitkeep
 
 
 
