@@ -6,6 +6,7 @@ using AquaFarm.Infrastructure.Entities;
 using AquaFarm.Infrastructure.UnitOfWork;
 using AutoMapper;
 using Moq;
+using System.Linq.Expressions;
 
 namespace AquaFarm.Test
 {
@@ -36,6 +37,7 @@ namespace AquaFarm.Test
         {
             // Arrange
             var request = new CreateWorkerRequest { Name = "Tom Hardy", FishFarmId = 1 };
+
             _unitOfWorkMock.Setup(u => u.WorkerRepository.InsertAsync(It.IsAny<Worker>()))
                            .ReturnsAsync((Worker w) => w);
             _unitOfWorkMock.Setup(u => u.CompleteAsync()).ReturnsAsync(1);
@@ -55,6 +57,7 @@ namespace AquaFarm.Test
         {
             // Arrange
             var request = new CreateWorkerRequest { Name = "Tom Hardy", FishFarmId = 1 };
+
             _unitOfWorkMock.Setup(u => u.WorkerRepository.InsertAsync(It.IsAny<Worker>()))
                            .ThrowsAsync(new Exception("DB failed"));
 
@@ -80,8 +83,8 @@ namespace AquaFarm.Test
             };
 
             _unitOfWorkMock.Setup(u => u.WorkerRepository.QueryAsync(
-                    w => w.FishFarmId == 1, null, 0, 10))
-                .ReturnsAsync(workers);
+                It.Is<Expression<Func<Worker, bool>>>(f => f.Compile()(workers[0])),null, null, null))
+                .ReturnsAsync(workers.Where(w => w.FishFarmId == 1));
 
             _unitOfWorkMock.Setup(u => u.WorkerRepository.CountAsync())
                .ReturnsAsync(workers.Count(w => w.FishFarmId == 1));
@@ -99,7 +102,11 @@ namespace AquaFarm.Test
         {
             // Arrange
             _unitOfWorkMock.Setup(u => u.WorkerRepository.QueryAsync(
-                    w => w.FishFarmId == 1, null, 0, 10))
+                It.IsAny<Expression<Func<Worker, bool>>>(),
+                It.IsAny<Func<IQueryable<Worker>, IOrderedQueryable<Worker>>>(),
+                It.IsAny<int?>(),
+                It.IsAny<int?>(),
+                It.IsAny<Expression<Func<Worker, object>>[]>()))
                 .ThrowsAsync(new Exception("DB failed"));
 
             // Act

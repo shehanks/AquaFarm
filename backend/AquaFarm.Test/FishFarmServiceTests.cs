@@ -40,6 +40,7 @@ namespace AquaFarm.Test
         {
             // Arrange
             var request = new CreateFishFarmRequest { Name = "North West X1" };
+
             _unitOfWorkMock.Setup(u => u.FishFarmRepository.InsertAsync(It.IsAny<FishFarm>()))
                            .ReturnsAsync((FishFarm f) => f);
             _unitOfWorkMock.Setup(u => u.CompleteAsync()).ReturnsAsync(1);
@@ -59,6 +60,7 @@ namespace AquaFarm.Test
         {
             // Arrange
             var request = new CreateFishFarmRequest { Name = "North West X1" };
+
             _unitOfWorkMock.Setup(u => u.FishFarmRepository.InsertAsync(It.IsAny<FishFarm>()))
                            .ThrowsAsync(new Exception("DB failed"));
 
