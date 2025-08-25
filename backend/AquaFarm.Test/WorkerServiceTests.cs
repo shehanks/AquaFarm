@@ -83,7 +83,7 @@ namespace AquaFarm.Test
             };
 
             _unitOfWorkMock.Setup(u => u.WorkerRepository.QueryAsync(
-                It.Is<Expression<Func<Worker, bool>>>(f => f.Compile()(workers[0])),null, null, null))
+                It.Is<Expression<Func<Worker, bool>>>(f => f.Compile()(workers[0])), null, null, null))
                 .ReturnsAsync(workers.Where(w => w.FishFarmId == 1));
 
             _unitOfWorkMock.Setup(u => u.WorkerRepository.CountAsync())
