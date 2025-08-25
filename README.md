@@ -16,6 +16,16 @@ Manage aqua farms and workers via a React frontend and ASP.NET Core backend.
 - Images stored in `wwwroot/images/` (add to `.gitignore`)  
 - **CORS:** Already enabled for frontend URL. If the URL changes, ensure CORS is updated in `Program.cs`.
 
+## Database
+- Ensure the database connection in appsettings.Development.json.
+```bash
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost\\SQLEXPRESS;Database=AquaFarmDB;Trusted_Connection=True;TrustServerCertificate=True"
+  }
+}
+```
+
 ## Frontend
 - React + Vite, developed on Node.js v22.18.0  
 - MUI, React Query, React Hook Form, Axios  
