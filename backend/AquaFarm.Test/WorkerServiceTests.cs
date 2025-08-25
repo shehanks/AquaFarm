@@ -1,6 +1,7 @@
 ﻿using AquaFarm.Application.CustomExceptions;
 using AquaFarm.Application.DTOs;
 using AquaFarm.Application.Services;
+using AquaFarm.Application.Services.Contracts;
 using AquaFarm.Infrastructure.Entities;
 using AquaFarm.Infrastructure.UnitOfWork;
 using AutoMapper;
@@ -13,10 +14,12 @@ namespace AquaFarm.Test
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly IMapper _mapper;
         private readonly WorkerService _service;
+        private readonly Mock<IFileService> _fileService;
 
         public WorkerServiceTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _fileService = new Mock<IFileService>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -25,7 +28,7 @@ namespace AquaFarm.Test
             });
 
             _mapper = config.CreateMapper();
-            _service = new WorkerService(_unitOfWorkMock.Object, _mapper);
+            _service = new WorkerService(_unitOfWorkMock.Object, _mapper, _fileService.Object);
         }
 
         [Fact]
@@ -70,19 +73,25 @@ namespace AquaFarm.Test
             var workers = new List<Worker>
             {
                 new Worker { Name = "Liam Neeson", FishFarmId = 1 },
-                new Worker { Name = "Tom Hanks", FishFarmId = 1 }
+                new Worker { Name = "Tom Hanks", FishFarmId = 2 },
+                new Worker { Name = "Lee Heaney", FishFarmId = 1 },
+                new Worker { Name = "Joe Fred", FishFarmId = 1 },
+                new Worker { Name = "Dan Williams", FishFarmId = 2 },
             };
 
             _unitOfWorkMock.Setup(u => u.WorkerRepository.QueryAsync(
                     w => w.FishFarmId == 1, null, 0, 10))
                 .ReturnsAsync(workers);
 
+            _unitOfWorkMock.Setup(u => u.WorkerRepository.CountAsync())
+               .ReturnsAsync(workers.Count(w => w.FishFarmId == 1));
+
             // Act
             var result = await _service.GetWorkersByFishFarmAsync(1, 0, 10);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(2, ((List<WorkerDto>)result).Count);
+            Assert.Equal(3, result.Meta.TotalCount);
         }
 
         [Fact]

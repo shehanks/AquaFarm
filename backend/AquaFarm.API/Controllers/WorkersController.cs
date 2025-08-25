@@ -16,10 +16,23 @@ namespace AquaFarm.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WorkerDto>> CreateWorker([FromBody] CreateWorkerRequest request)
+        public async Task<ActionResult> CreateWorker([FromBody] CreateWorkerRequest request)
         {
             var worker = await _workerService.CreateWorkerAsync(request);
             return CreatedAtAction(nameof(CreateWorker), new { id = worker.Id }, worker);
+        }
+
+        [HttpPost("{workerId}/upload-image")]
+        public async Task<IActionResult> UploadImage(int workerId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("No file uploaded.");
+
+            using var stream = file.OpenReadStream();
+            var url = await _workerService.UploadWorkerImageAsync(workerId, stream, file.FileName);
+            await Task.Yield();
+
+            return Ok(new { url });
         }
     }
 }

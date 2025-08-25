@@ -12,10 +12,13 @@ namespace AquaFarm.Application.Services
 
         private readonly IMapper _mapper;
 
-        public WorkerService(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IFileService _fileService;
+
+        public WorkerService(IUnitOfWork unitOfWork, IMapper mapper, IFileService fileService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<WorkerDto> CreateWorkerAsync(CreateWorkerRequest request)
@@ -43,17 +46,32 @@ namespace AquaFarm.Application.Services
             }
         }
 
-        public async Task<IEnumerable<WorkerDto>> GetWorkersByFishFarmAsync(int fishFarmId, int skip = 0, int take = 10)
+        public async Task<PaginatedResponse<WorkerDto>> GetWorkersByFishFarmAsync(int fishFarmId, int skip = 0, int take = 10)
         {
             try
             {
                 var workers = await _unitOfWork.WorkerRepository.QueryAsync(
-                filter: w => w.FishFarmId == fishFarmId,
-                skip: skip,
-                take: take
-            );
+                    filter: w => w.FishFarmId == fishFarmId
+                );
 
-                return _mapper.Map<IEnumerable<WorkerDto>>(workers);
+                var totalCount = workers.Count();
+
+                workers = workers
+                    .Skip(skip)
+                    .Take(take);
+
+                var items = _mapper.Map<IEnumerable<WorkerDto>>(workers);
+
+                return new PaginatedResponse<WorkerDto>
+                {
+                    Items = items,
+                    Meta = new()
+                    {
+                        TotalCount = totalCount,
+                        PageSize = take,
+                        Page = (skip / take) + 1
+                    }
+                };
             }
             catch (AquaFarmException)
             {
@@ -63,6 +81,34 @@ namespace AquaFarm.Application.Services
             {
                 throw new AquaFarmException(
                     action: "GET_WORKER_BY_FISHFARM",
+                    statusCode: 500,
+                    ex.Message,
+                    innerException: ex);
+            }
+        }
+
+        public async Task<string> UploadWorkerImageAsync(int workerId, Stream stream, string fileName)
+        {
+            try
+            {
+                var fishFarm = await _unitOfWork.WorkerRepository.GetByIdAsync(workerId);
+                if (fishFarm == null)
+                    throw new ApplicationException($"Fish farm not found. Action: UPLOAD_WORKER_IMAGE");
+
+                var url = await _fileService.UploadImageAsync(stream, fileName);
+                fishFarm.Picture = url;
+                await _unitOfWork.CompleteAsync();
+
+                return url;
+            }
+            catch (AquaFarmException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new AquaFarmException(
+                    action: "UPLOAD_WORKER_IMAGE",
                     statusCode: 500,
                     ex.Message,
                     innerException: ex);

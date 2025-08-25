@@ -3,6 +3,14 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("client", policy =>
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
 // Add services to the container.
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -25,6 +33,8 @@ builder.Services.ConfigureServices();
 
 var app = builder.Build();
 
+app.UseCors("client");
+
 // Enable Swagger only in Development for testing
 if (app.Environment.IsDevelopment())
 {
@@ -45,6 +55,8 @@ app.Logger.Log(LogLevel.Information, "The application has started.");
 app.UseErrorHandling();
 
 app.MapControllers();
+
+app.UseStaticFiles();
 
 // Health Probe route
 app.MapGet("/healthz", () => "ok");

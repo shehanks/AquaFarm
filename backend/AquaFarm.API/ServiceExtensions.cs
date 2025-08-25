@@ -38,6 +38,7 @@ namespace AquaFarm.API
             // Application services
             services.AddScoped<IFishFarmService, FishFarmService>();
             services.AddScoped<IWorkerService, WorkerService>();
+            services.AddScoped<IFileService, FileService>();
 
             return services;
         }

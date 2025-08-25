@@ -43,6 +43,11 @@ namespace AquaFarm.Infrastructure.Repositories
                 _dbSet.Remove(entity);
         }
 
+        public async Task<int> CountAsync()
+        {
+            return await _dbSet.CountAsync();
+        }
+
         public async Task<IEnumerable<TEntity>> QueryAsync(
             Expression<Func<TEntity, bool>>? filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,

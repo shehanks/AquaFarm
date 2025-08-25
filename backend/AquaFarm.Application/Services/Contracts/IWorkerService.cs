@@ -6,6 +6,8 @@ namespace AquaFarm.Application.Services.Contracts
     {
         Task<WorkerDto> CreateWorkerAsync(CreateWorkerRequest request);
 
-        Task<IEnumerable<WorkerDto>> GetWorkersByFishFarmAsync(int fishFarmId, int skip = 0, int take = 10);
+        Task<PaginatedResponse<WorkerDto>> GetWorkersByFishFarmAsync(int fishFarmId, int skip = 0, int take = 10);
+
+        Task<string> UploadWorkerImageAsync(int workerId, Stream stream, string fileName);
     }
 }

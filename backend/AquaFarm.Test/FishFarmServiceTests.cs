@@ -1,6 +1,7 @@
 using AquaFarm.Application.CustomExceptions;
 using AquaFarm.Application.DTOs;
 using AquaFarm.Application.Services;
+using AquaFarm.Application.Services.Contracts;
 using AquaFarm.Infrastructure.Entities;
 using AquaFarm.Infrastructure.UnitOfWork;
 using AutoMapper;
@@ -17,9 +18,12 @@ namespace AquaFarm.Test
 
         private readonly FishFarmService _service;
 
+        private readonly Mock<IFileService> _fileService;
+
         public FishFarmServiceTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _fileService = new Mock<IFileService>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -28,7 +32,7 @@ namespace AquaFarm.Test
             });
 
             _mapper = config.CreateMapper();
-            _service = new FishFarmService(_unitOfWorkMock.Object, _mapper);
+            _service = new FishFarmService(_unitOfWorkMock.Object, _mapper, _fileService.Object);
         }
 
         [Fact]
@@ -81,12 +85,15 @@ namespace AquaFarm.Test
                     null, 0, 10))
                 .ReturnsAsync(fishFarms);
 
+            _unitOfWorkMock.Setup(u => u.FishFarmRepository.CountAsync())
+                .ReturnsAsync(fishFarms.Count);
+
             // Act
             var result = await _service.GetFishFarmsAsync(0, 10);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(2, ((List<FishFarmDto>)result).Count);
+            Assert.Equal(2, result.Meta.TotalCount);
         }
 
         [Fact]

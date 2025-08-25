@@ -12,6 +12,8 @@ namespace AquaFarm.Infrastructure.Repositories.Contracts
 
         Task<IEnumerable<TEntity>> GetAllAsync();
 
+        Task<int> CountAsync();
+
         Task DeleteByIdAsync(int id);
 
         Task<IEnumerable<TEntity>> QueryAsync(
