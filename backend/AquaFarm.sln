@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaFarm.API", "AquaFarm.API\AquaFarm.API.csproj", "{03667210-2D24-46E7-AB9B-D9853EB0DCD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaFarm.Application", "AquaFarm.Application\AquaFarm.Application.csproj", "{C070A277-5D77-4311-9985-95A8865F0D46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaFarm.Infrastructure", "AquaFarm.Infrastructure\AquaFarm.Infrastructure.csproj", "{9699224E-37ED-4638-AC66-F4CA33ABEEB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AquaFarm.Test", "AquaFarm.Test\AquaFarm.Test.csproj", "{1752E0B0-7B5E-4867-8603-FAE3CF5EF532}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03667210-2D24-46E7-AB9B-D9853EB0DCD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03667210-2D24-46E7-AB9B-D9853EB0DCD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03667210-2D24-46E7-AB9B-D9853EB0DCD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03667210-2D24-46E7-AB9B-D9853EB0DCD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C070A277-5D77-4311-9985-95A8865F0D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C070A277-5D77-4311-9985-95A8865F0D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C070A277-5D77-4311-9985-95A8865F0D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C070A277-5D77-4311-9985-95A8865F0D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9699224E-37ED-4638-AC66-F4CA33ABEEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9699224E-37ED-4638-AC66-F4CA33ABEEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9699224E-37ED-4638-AC66-F4CA33ABEEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9699224E-37ED-4638-AC66-F4CA33ABEEB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1752E0B0-7B5E-4867-8603-FAE3CF5EF532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1752E0B0-7B5E-4867-8603-FAE3CF5EF532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1752E0B0-7B5E-4867-8603-FAE3CF5EF532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1752E0B0-7B5E-4867-8603-FAE3CF5EF532}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
